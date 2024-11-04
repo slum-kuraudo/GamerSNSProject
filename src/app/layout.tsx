@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import LinkBar  from '../components/appbar/LinkBar';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,9 +18,10 @@ export default function RootLayout({
     <html lang="ja">
 
       <body className={inter.className}>
+      <LinkBar />
         <main>
           <AppRouterCacheProvider>
-          {children}
+            {children}
           </AppRouterCacheProvider>
         </main>
       </body>

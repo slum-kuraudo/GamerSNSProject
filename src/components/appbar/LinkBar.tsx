@@ -1,5 +1,6 @@
 'use client';
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import { alpha, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -15,6 +16,13 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Sitemark from './SitemarkIcon';
 import ColorModeIconDropdown from './ColorModeIconDropdown';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import VideogameAssetRoundedIcon from '@mui/icons-material/VideogameAssetRounded';
+import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import AccountMenu from './AccountMenu';
+import SearchField from './SearchField';
+import game from '../../app/game/page';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
@@ -28,10 +36,21 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     backgroundColor: alpha(theme.palette.background.default, 0.4),
     boxShadow: theme.shadows[1],
     padding: '8px 12px',
+    fontStyle: 'roboto',
+    fontWeight: 500,
 }));
 
 export default function LinkBar() {
     const [open, setOpen] = React.useState(false);
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const router = useRouter();
+    const handleOpenusermenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElUser(event.currentTarget);
+    }
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    }
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
@@ -53,24 +72,17 @@ export default function LinkBar() {
                     <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
                         <Sitemark />
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                            <Button style={{ border: 'none', background: 'none' }}>
-                                <HomeRoundedIcon color='primary' fontSize='large'>
-                                </HomeRoundedIcon>
+                            <Button variant='text' startIcon={<HomeRoundedIcon />}>
+                                ホーム
                             </Button>
-                            <Button variant="text" color="info" size="small">
-                                タイトル
+                            <Button variant="text" onClick={() => router.push('/game')} startIcon={<VideogameAssetRoundedIcon />}>
+                                ゲームを探す
                             </Button>
-                            <Button variant="text" color="info" size="small">
-                                Highlights
+                            <Button variant="text" startIcon={<NotificationsRoundedIcon/>}>
+                                通知
                             </Button>
-                            <Button variant="text" color="info" size="small">
-                                Pricing
-                            </Button>
-                            <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                                FAQ
-                            </Button>
-                            <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                                Blog
+                            <Button variant="text" startIcon={<MessageRoundedIcon/>}>
+                                tell
                             </Button>
                         </Box>
                     </Box>
@@ -80,14 +92,10 @@ export default function LinkBar() {
                             gap: 1,
                             alignItems: 'center',
                         }}
+                        fontStyle="roboto"
                     >
-                        <Button color="primary" variant="text" size="small">
-                            Sign in
-                        </Button>
-                        <Button color="primary" variant="contained" size="small">
-                            Sign up
-                        </Button>
-                        <ColorModeIconDropdown />
+                        <SearchField/>
+                        <AccountMenu />
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
                         <ColorModeIconDropdown size="medium" />
