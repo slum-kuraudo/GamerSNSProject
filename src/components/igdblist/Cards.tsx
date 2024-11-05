@@ -22,7 +22,7 @@ export default function GameCard() {
           {/* <SearchField /> */}
           <Grid2 container spacing={5}>
             <Grid2 size="auto">
-              <Card sx={{ maxWidth: 345, }}>
+              <Card sx={{ maxWidth: 300, }}>
                 <CardMedia
                   sx={{ height: 140 }}
                   image="/static/images/cards/contemplative-reptile.jpg"
@@ -30,11 +30,10 @@ export default function GameCard() {
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    Lizard
+                    ゲームタイトル
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
+                    ジャンルを書く
                   </Typography>
                 </CardContent>
                 <CardActions>
