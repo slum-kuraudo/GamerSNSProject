@@ -56,6 +56,8 @@ export default function LinkBar() {
         setOpen(newOpen);
     };
 
+    
+
     return (
         <AppBar
             position="fixed"
