@@ -6,7 +6,7 @@ dotenv.config();
 export async function POST(response){
 
     try {
-        const res = await fetch('https://api.igdb.com/v4/games', {
+        const res = await fetch('https://api.twitch.tv/helix/games?igdb_id=115', {
             method: 'POST',
             headers:{
                 'Accept': 'application/json',
@@ -22,4 +22,3 @@ export async function POST(response){
         return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
     }
 }
-
