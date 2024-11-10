@@ -57,7 +57,9 @@ export default function IGDBGameCard() {
                                 title="green iguana"
                             />
                             <CardContent>
-                                <Typography gutterBottom variant="h5" component="div">
+                                <Typography gutterBottom variant="h5" component="div" 
+                                    sx={{maxWidth: 250, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}
+                                >
                                     {list.name}
                                 </Typography>
                             </CardContent>
