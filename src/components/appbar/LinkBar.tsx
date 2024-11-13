@@ -6,23 +6,18 @@ import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import Drawer from '@mui/material/Drawer';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Sitemark from './SitemarkIcon';
-import ColorModeIconDropdown from './ColorModeIconDropdown';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import VideogameAssetRoundedIcon from '@mui/icons-material/VideogameAssetRounded';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import AccountMenu from './AccountMenu';
 import SearchField from './SearchField';
-import game from '../../app/game/page';
+import NewPost from './NewPost';
+
+//https://mui.com/material-ui/react-bottom-navigation/
+//スマホ版のボタンUI↑
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
@@ -74,7 +69,7 @@ export default function LinkBar() {
                     <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
                         <Sitemark />
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                            <Button variant='text' startIcon={<HomeRoundedIcon />}>
+                            <Button variant='text' onClick={() => router.push('/')}startIcon={<HomeRoundedIcon />}>
                                 ホーム
                             </Button>
                             <Button variant="text" onClick={() => router.push('/game')} startIcon={<VideogameAssetRoundedIcon />}>
@@ -96,7 +91,7 @@ export default function LinkBar() {
                         }}
                         fontStyle="roboto"
                     >
-                        <SearchField/>
+                        <NewPost/>
                         <AccountMenu />
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>

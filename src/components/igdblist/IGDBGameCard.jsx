@@ -33,7 +33,7 @@ export default function IGDBGameCard() {
             setIsLoading(false);
         }
     }
-
+//https://mui.com/material-ui/react-skeleton/
     useEffect(() => {
         fetchData();
     }, [])
@@ -50,7 +50,7 @@ export default function IGDBGameCard() {
             <>
                 {lists.map(list =>
                     <div key={list.id}>
-                        <Card sx={{ maxWidth: 235, }}>
+                        <Card sx={{ maxWidth: 235, mt:3}}>
                             <CardMedia
                                 sx={{ height: 330, width: 235 }}
                                 image={list.cover.url}
