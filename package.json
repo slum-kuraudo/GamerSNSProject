@@ -30,6 +30,7 @@
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
     "react-loader-spinner": "^6.1.6",
+    "react-router-dom": "^6.28.0",
     "styled-components": "^6.1.13",
     "yarn": "^1.22.22"
   },
