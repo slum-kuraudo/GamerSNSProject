@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -29,14 +29,12 @@ export default function IGDBGameCard() {
 
     const router = useRouter();
 
-    const [name, setName] = useState("");
-    const [image, setImage] = useState("");
-    const [slug, setSlug] = useState("");
     const [games, setGames] = useState<Game[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchData = async () => {
-        await Axios.post('/api/igdb')
+        let requestBody = "fields name,cover.url,slug,game_localizations.name,game_localizations.region; where rating > 90; limit 20;"
+        await Axios.post('/api/igdb', { body: requestBody })
             .then((res) => {
                 setGames(res.data);
                 setIsLoading(true);
@@ -62,7 +60,7 @@ export default function IGDBGameCard() {
                                 image={Game.cover.url}
                                 title="green iguana"
                             />) : (
-                            <Skeleton variant="rectangular" width={235} height={330}/>
+                            <Skeleton variant="rectangular" width={235} height={330} />
                         )}
                         <CardContent>
                             {isLoading ? (
@@ -76,7 +74,7 @@ export default function IGDBGameCard() {
                             )}
                         </CardContent>
                         <CardActions>
-                            <Button size="small" onClick={() => router.push(`/game/${Game.slug}`)}>ポスト</Button>
+                            <Button size="small" onClick={() => router.push(`/game/${Game.id}`)}>ポスト</Button>
                             <Button size="small"
                                 endIcon={<LaunchRoundedIcon />}
                                 onClick={() => launchTwitch(Game.slug)}

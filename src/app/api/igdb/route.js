@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server';
 
 dotenv.config();
 
-export async function POST(response){
-
+export async function POST(request){
     try {
+        const { body } = await request.json();
         const res = await fetch('https://api.igdb.com/v4/games', {
             method: 'POST',
             headers:{
@@ -13,8 +13,7 @@ export async function POST(response){
                 'Client-ID': `${process.env.NEXT_PUBLIC_TWITCH_CLIENT_ID}`,
                 'Authorization': `Bearer ${process.env.NEXT_PUBLIC_TWITCH_APP_ACCESS_TOKEN}`,
             },
-            body: "fields name,cover.url,slug,game_localizations.name,game_localizations.region; where rating > 90; limit 20;"
-            ,
+            body: body,
         });
         const data = await res.json();
         return NextResponse.json(data);
