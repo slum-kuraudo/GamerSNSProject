@@ -15,6 +15,7 @@ import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
 import AccountMenu from './AccountMenu';
 import SearchField from './SearchField';
 import NewPost from './NewPost';
+import { SignedIn, UserButton } from '@clerk/nextjs';
 
 //https://mui.com/material-ui/react-bottom-navigation/
 //スマホ版のボタンUI↑
@@ -69,7 +70,7 @@ export default function LinkBar() {
                     <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
                         <Sitemark />
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                            <Button variant='text' onClick={() => router.push('/')}startIcon={<HomeRoundedIcon />}>
+                            <Button variant='text' onClick={() => router.push('/home')}startIcon={<HomeRoundedIcon />}>
                                 ホーム
                             </Button>
                             <Button variant="text" onClick={() => router.push('/game')} startIcon={<VideogameAssetRoundedIcon />}>
@@ -93,6 +94,9 @@ export default function LinkBar() {
                     >
                         <NewPost/>
                         <AccountMenu />
+                        <SignedIn>
+                            <UserButton/>
+                        </SignedIn>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
                     </Box>

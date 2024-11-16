@@ -58,7 +58,7 @@ export default function IGDBGameCard() {
                             <CardMedia
                                 sx={{ height: 330, width: 235 }}
                                 image={Game.cover.url}
-                                title="green iguana"
+                                title={Game.slug}
                             />) : (
                             <Skeleton variant="rectangular" width={235} height={330} />
                         )}

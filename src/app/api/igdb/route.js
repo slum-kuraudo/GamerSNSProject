@@ -10,8 +10,8 @@ export async function POST(request){
             method: 'POST',
             headers:{
                 'Accept': 'application/json',
-                'Client-ID': `${process.env.NEXT_PUBLIC_TWITCH_CLIENT_ID}`,
-                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_TWITCH_APP_ACCESS_TOKEN}`,
+                'Client-ID': `${process.env.TWITCH_CLIENT_ID}`,
+                'Authorization': `Bearer ${process.env.TWITCH_APP_ACCESS_TOKEN}`,
             },
             body: body,
         });
