@@ -42,7 +42,14 @@ export default function IGDBGameCard() {
     }
 
     useEffect(() => {
-        fetchData();
+        let ignore = false;
+        async function startFetch() {
+            if (!ignore) {
+                fetchData();
+            }
+        }
+        startFetch();
+        return () => { ignore = true; }
     }, [])
 
 

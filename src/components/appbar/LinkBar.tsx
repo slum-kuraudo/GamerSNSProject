@@ -14,6 +14,8 @@ import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
 import AccountMenu from './AccountMenu';
 import SearchField from './SearchField';
+import PersonIcon from '@mui/icons-material/Person';
+
 import NewPost from './NewPost';
 import { SignedIn, UserButton } from '@clerk/nextjs';
 
@@ -36,6 +38,15 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     fontWeight: 500,
 }));
 
+const CustomPage = () => {
+    return (
+        <div>
+            <h1>Custom Profile Page</h1>
+            <p>This is the custom profile page</p>
+        </div>
+    )
+}
+
 export default function LinkBar() {
     const [open, setOpen] = React.useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -52,7 +63,7 @@ export default function LinkBar() {
         setOpen(newOpen);
     };
 
-    
+
 
     return (
         <AppBar
@@ -70,16 +81,16 @@ export default function LinkBar() {
                     <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
                         <Sitemark />
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                            <Button variant='text' onClick={() => router.push('/home')}startIcon={<HomeRoundedIcon />}>
+                            <Button variant='text' onClick={() => router.push('/home')} startIcon={<HomeRoundedIcon />}>
                                 ホーム
                             </Button>
                             <Button variant="text" onClick={() => router.push('/game')} startIcon={<VideogameAssetRoundedIcon />}>
                                 ゲームを探す
                             </Button>
-                            <Button variant="text" startIcon={<NotificationsRoundedIcon/>}>
+                            <Button variant="text" startIcon={<NotificationsRoundedIcon />}>
                                 通知
                             </Button>
-                            <Button variant="text" startIcon={<MessageRoundedIcon/>}>
+                            <Button variant="text" startIcon={<MessageRoundedIcon />}>
                                 tell
                             </Button>
                         </Box>
@@ -92,10 +103,11 @@ export default function LinkBar() {
                         }}
                         fontStyle="roboto"
                     >
-                        <NewPost/>
+                        <NewPost />
                         <AccountMenu />
                         <SignedIn>
                             <UserButton/>
+
                         </SignedIn>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>

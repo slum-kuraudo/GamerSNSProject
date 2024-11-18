@@ -1,5 +1,3 @@
-"use client"
-
 import Axios from 'axios';
 import { useEffect, useCallback, useState } from 'react';
 import Image from 'next/image';
@@ -32,7 +30,14 @@ export default function ProfileInfo({ gameId }: ProfileInfoProps) {
     }, [gameId])
 
     useEffect(() => {
-        fetchData();
+        let ignore = false;
+        async function startFetch(){
+            if (!ignore) {
+                fetchData();
+            }
+        }
+        startFetch();
+        return () => { ignore = true; }
     }, [gameId])
     
 
@@ -50,7 +55,7 @@ export default function ProfileInfo({ gameId }: ProfileInfoProps) {
                         }}
                         width={500}
                         height={300} />
-                    <h2>{3 === Game.game_localizations.region ?  Game.game_localizations.name : Game.name}</h2>
+                    <h2>{Game.name}</h2>
                 </div>
             )}
         </>

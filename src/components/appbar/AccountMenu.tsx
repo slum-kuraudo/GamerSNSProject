@@ -11,10 +11,18 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { useUser, useClerk, UserButton } from '@clerk/nextjs';
+import Image from 'next/image';
+import PersonIcon from '@mui/icons-material/Person';
+import settingModal from '../setting/settingModal';
 
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [auth, setAuth] = React.useState(true);  //ログインしているか判定
+    const { isLoaded, isSignedIn, user } = useUser();
+    const { signOut } = useClerk();
+
+    if (!isLoaded || !isSignedIn) return null;
+
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -22,6 +30,8 @@ export default function AccountMenu() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    console.log(user);
+
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -34,7 +44,9 @@ export default function AccountMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                        <Avatar
+                            src={user.imageUrl}
+                        >M</Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -76,16 +88,14 @@ export default function AccountMenu() {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem onClick={handleClose}>
-                    <Avatar /> アカウント名とuseridを表示させる
+                    <Avatar
+                        sx={{ width: 48, height: 48 }}
+                        src={user.imageUrl}
+                    />
+                    {user.username}
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    設定
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={() => signOut({ redirectUrl: 'sign-in' })}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>

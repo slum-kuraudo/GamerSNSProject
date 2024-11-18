@@ -1,4 +1,4 @@
-"use client";
+
 import { use, useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Grid2 from '@mui/material/Grid2';
