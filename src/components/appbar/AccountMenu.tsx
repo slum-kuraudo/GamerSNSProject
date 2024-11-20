@@ -14,7 +14,6 @@ import Logout from '@mui/icons-material/Logout';
 import { useUser, useClerk, UserButton } from '@clerk/nextjs';
 import Image from 'next/image';
 import PersonIcon from '@mui/icons-material/Person';
-import settingModal from '../setting/settingModal';
 
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -30,7 +29,6 @@ export default function AccountMenu() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    console.log(user);
 
     return (
         <React.Fragment>

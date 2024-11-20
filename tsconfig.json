@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/api/game/route.js", "src/components/igdblist/IGDBGameCard.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/api/game/route.js", "src/components/igdblist/IGDBGameCard.jsx", "src/app/supabase-test/client.js"],
   "exclude": ["node_modules"]
 }

@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
         port: '443',
         pathname: '/igdb/image/upload/t_',
         search: '.*'
+      },
+      {
+        protocol: 'https',
+        hostname: 'uyehbdnaojwdxrrzdwat.supabase.co'
       }
     ]
   },

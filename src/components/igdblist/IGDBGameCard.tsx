@@ -49,6 +49,7 @@ export default function IGDBGameCard() {
             }
         }
         startFetch();
+        console.log("fetching data");
         return () => { ignore = true; }
     }, [])
 
