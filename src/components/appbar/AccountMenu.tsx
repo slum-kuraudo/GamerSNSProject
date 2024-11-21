@@ -14,6 +14,7 @@ import Logout from '@mui/icons-material/Logout';
 import { useUser, useClerk, UserButton } from '@clerk/nextjs';
 import Image from 'next/image';
 import PersonIcon from '@mui/icons-material/Person';
+import EditProfile from '../editProfile/editProfile';
 
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -53,7 +54,6 @@ export default function AccountMenu() {
                 id="account-menu"
                 open={open}
                 onClose={handleClose}
-                onClick={handleClose}
                 slotProps={{
                     paper: {
                         elevation: 0,
@@ -90,8 +90,12 @@ export default function AccountMenu() {
                         sx={{ width: 48, height: 48 }}
                         src={user.imageUrl}
                     />
-                    {user.username}
+                    {user.unsafeMetadata.handleName as string}
+                    <br />
+                    {'@' + user.username}
                 </MenuItem>
+                <Divider />
+                <EditProfile />
                 <Divider />
                 <MenuItem onClick={() => signOut({ redirectUrl: 'sign-in' })}>
                     <ListItemIcon>

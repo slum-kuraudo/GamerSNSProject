@@ -69,7 +69,6 @@ export default function Home() {
     // the tasks for the signed in user
     useEffect(() => {
         if (!user) return
-        console.log('User:', user)
         async function loadTasks() {
             setLoading(true)
             const { data, error } = await client.from('tasks').select()
@@ -88,14 +87,14 @@ export default function Home() {
             return;
         }
         const imageFile = file
-        console.log('imageFile:', imageFile)
+
         if (!user) {
             console.error('User is not defined');
             return;
         }
-        //const filePath = `${user.firstName}/${crypto.randomUUID()}`
         const fileName = `${crypto.randomUUID()}`
-        console.log('filePath:', fileName)
+
+
         const { error: upError } = await client.storage
             .from('test_image')
             .upload(fileName, imageFile)

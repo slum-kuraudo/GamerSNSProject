@@ -24,7 +24,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider localization={jaJP}>
+    <ClerkProvider>
+      {/* <ClerkProvider localization={jaJP}> */}
       <html lang="ja">
         <body className={inter.className}>
           <main>

@@ -8,6 +8,7 @@ import TextField from '../post/TextField';
 import InputFileUpload from '../post/FileUpdate';
 import TagComplete from '../post/TagComplete';
 import SendButton from '../post/SendButton';
+import { useUser } from '@clerk/nextjs';
 
 const style = {
     position: 'absolute',
@@ -25,6 +26,7 @@ export default function NewPost() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const { isLoaded, isSignedIn, user } = useUser();
 
     return (
         <div>
@@ -36,7 +38,7 @@ export default function NewPost() {
                 aria-describedby="modal-modal-description"
             >
                 <Box>
-                    
+
                     <Box sx={style}>
                         <ImageAvatars />
                         <TextField />
