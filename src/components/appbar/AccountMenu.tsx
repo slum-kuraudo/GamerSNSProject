@@ -14,11 +14,11 @@ import Logout from '@mui/icons-material/Logout';
 import { useUser, useClerk, UserButton } from '@clerk/nextjs';
 import Image from 'next/image';
 import PersonIcon from '@mui/icons-material/Person';
-import EditProfile from '../editProfile/editProfile';
 
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const { isLoaded, isSignedIn, user } = useUser();
+
     const { signOut } = useClerk();
 
     if (!isLoaded || !isSignedIn) return null;
@@ -90,12 +90,11 @@ export default function AccountMenu() {
                         sx={{ width: 48, height: 48 }}
                         src={user.imageUrl}
                     />
-                    {user.unsafeMetadata.handleName as string}
+                    {user.firstName as string}
                     <br />
                     {'@' + user.username}
                 </MenuItem>
                 <Divider />
-                <EditProfile />
                 <Divider />
                 <MenuItem onClick={() => signOut({ redirectUrl: 'sign-in' })}>
                     <ListItemIcon>
