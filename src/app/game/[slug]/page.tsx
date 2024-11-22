@@ -26,7 +26,7 @@ export default function game() {
 
 
     const fetchData = useCallback(() => {
-        
+
         let requestBody = `fields name,cover.url,game_localizations.name,game_localizations.region; where id = ${params.slug};`
         console.log(requestBody);
         Axios.post('/api/igdb', { body: requestBody })
@@ -50,7 +50,6 @@ export default function game() {
 
     return (
         <div>
-            <Linkbar />
             <h1>info.tsxだよー</h1>
             {gameInfo.map((Game) =>
                 <div key={Game.id}>

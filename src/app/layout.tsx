@@ -11,6 +11,8 @@ import {
   UserButton
 } from '@clerk/nextjs'
 import './globals.css'
+import LinkBar from '@/components/appbar/LinkBar';
+import NewPost from '@/components/appbar/NewPost';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,6 +25,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
+  if (typeof window === 'undefined') {
+    console.log('server')
+  } else {
+    console.log('client')
+  }
   return (
     // <ClerkProvider>
     <ClerkProvider localization={jaJP}>
@@ -30,6 +38,8 @@ export default function RootLayout({
         <body className={inter.className}>
           <main>
             <AppRouterCacheProvider>
+              <LinkBar />
+              <NewPost />
               {children}
             </AppRouterCacheProvider>
           </main>

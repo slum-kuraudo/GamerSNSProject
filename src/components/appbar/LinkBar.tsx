@@ -127,14 +127,14 @@ export default function LinkBar() {
                                 <MenuIcon />
                             </IconButton>
                             <Drawer
-                                anchor='top'
+                                anchor='bottom'
                                 open={draweropen}
-                                onClose={toggleDrawer(false)}
-                                PaperProps={{
-                                    sx: {
-                                        top: 'var(--template-frame-height, 0px)',
-                                    }
-                                }}
+                                onClick={toggleDrawer(false)}
+                            // PaperProps={{
+                            //     sx: {
+                            //         top: 'var(--template-frame-height, 0px)',
+                            //     }
+                            // }}
                             >
                                 <Box sx={{ p: 2, backgroundColor: 'background.default' }}>
                                     <Box
@@ -143,9 +143,6 @@ export default function LinkBar() {
                                             justifyContent: 'flex-end',
                                         }}
                                     >
-                                        <IconButton onClick={toggleDrawer(false)}>
-                                            <CloseRoundedIcon />
-                                        </IconButton>
                                     </Box>
                                     <MenuItem onClick={() => router.push('/home')}>ホーム</MenuItem>
                                     <MenuItem onClick={() => router.push('/game')}>ゲームを探す</MenuItem>
@@ -185,8 +182,8 @@ export default function LinkBar() {
                             }}
                             fontStyle="roboto"
                         >
-                            <NewPost />
                             <SignedIn>
+
                                 <UserButton>
                                     <UserButton.MenuItems>
                                         <UserButton.Action

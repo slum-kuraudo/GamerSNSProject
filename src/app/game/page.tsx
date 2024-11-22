@@ -4,7 +4,6 @@ import GameCard from '../../components/igdblist/Cards';
 function game() {
     return (
         <>
-            <LinkBar/>
             <GameCard />
         </>
     )

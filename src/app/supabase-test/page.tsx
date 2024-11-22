@@ -101,14 +101,14 @@ export default function Home() {
 
         if (upError) { console.error('Error uploading file: ', upError.message) }
 
-        const { data: urlData} = await client.storage
+        const { data: urlData } = await client.storage
             .from('test_image')
             .getPublicUrl(fileName)
 
-        
+
         await client.from('tasks').insert({
             name,
-            imageUrl : urlData?.publicUrl,
+            imageUrl: urlData?.publicUrl,
         })
         window.location.reload()
     }
@@ -168,9 +168,9 @@ export default function Home() {
                         />
                         <p>{task.name}</p>
                         <button onClick={() => deleteTask(task.id)}>Delete</button>
-                        {task.imageUrl 
-                        && 
-                        <Image src={task.imageUrl} alt='task' width={100} height={100}/>}
+                        {task.imageUrl
+                            &&
+                            <Image src={task.imageUrl} alt='task' width={100} height={100} />}
                     </div>
                 ))}
 
@@ -188,7 +188,7 @@ export default function Home() {
                 <div>
                     {previewUrl ? (
                         <div>
-                            <Image src={previewUrl} alt='preview' width={100} height={100}/>
+                            <Image src={previewUrl} alt='preview' width={100} height={100} />
                         </div>
                     ) : (
                         null
