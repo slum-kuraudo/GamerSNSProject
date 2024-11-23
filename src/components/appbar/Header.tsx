@@ -67,7 +67,7 @@ const style = {
 };
 
 
-export default function LinkBar() {
+export default function Header() {
     const [open, setOpen] = useState(false);
     const [draweropen, setDrawerOpen] = useState(false);
     const [firstName, setFirstName] = useState('');
@@ -192,6 +192,8 @@ export default function LinkBar() {
                                             onClick={handleOpen}
                                         >
                                         </UserButton.Action>
+                                        <UserButton.Action label="manageAccount" />
+                                        <UserButton.Action label="signOut" />
                                     </UserButton.MenuItems>
                                 </UserButton>
 
@@ -255,7 +257,6 @@ export default function LinkBar() {
                         <Typography id="modal-modal-title" variant="h6" component="h2">
                             プロフィール画像やパスワードの変更はこちら
                         </Typography>
-
                     </Box>
                 </form>
             </Modal>

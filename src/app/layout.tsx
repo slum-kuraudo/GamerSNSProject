@@ -11,7 +11,7 @@ import {
   UserButton
 } from '@clerk/nextjs'
 import './globals.css'
-import LinkBar from '@/components/appbar/LinkBar';
+import Header from '@/components/appbar/Header';
 import NewPost from '@/components/appbar/NewPost';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -38,7 +38,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <main>
             <AppRouterCacheProvider>
-              <LinkBar />
+              <Header />
               <NewPost />
               {children}
             </AppRouterCacheProvider>
