@@ -206,6 +206,7 @@ export default function Home() {
                             type="file"
                             onChange={handleFile}
                             multiple
+                            accept="*jpg, *jpeg, *png, *gif"
                         />
                     </Button>
                 </div>

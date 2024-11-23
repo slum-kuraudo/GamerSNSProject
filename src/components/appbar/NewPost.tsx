@@ -14,6 +14,13 @@ import SendButton from '../post/SendButton';
 import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 
+const PostModalStyle = {
+    true: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+}
 
 const style = {
     position: 'absolute',
@@ -55,6 +62,7 @@ export default function NewPost() {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                sx={PostModalStyle}
             >
                 <Box>
                     <Box sx={style}>
