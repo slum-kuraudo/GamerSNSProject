@@ -16,6 +16,7 @@ interface Game {
     id: string;
     name: string;
     cover: {
+        image_id: string;
         url: string;
     };
     slug: string;
@@ -33,7 +34,7 @@ export default function IGDBGameCard() {
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchData = async () => {
-        let requestBody = "fields name,cover.url,slug,game_localizations.name,game_localizations.region; where rating > 90; limit 20;"
+        let requestBody = "fields name,cover.url,cover.image_id,slug,game_localizations.name,game_localizations.region; where rating > 90; limit 20;"
         await Axios.post('/api/igdb', { body: requestBody })
             .then((res) => {
                 setGames(res.data);
@@ -65,7 +66,7 @@ export default function IGDBGameCard() {
                         {isLoading ? (
                             <CardMedia
                                 sx={{ height: 330, width: 235 }}
-                                image={Game.cover.url}
+                                image={"https://images.igdb.com/igdb/image/upload/t_1080p/" + Game.cover.image_id + ".jpg"}
                                 title={Game.slug}
                             />) : (
                             <Skeleton variant="rectangular" width={235} height={330} />

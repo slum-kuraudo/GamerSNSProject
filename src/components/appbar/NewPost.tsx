@@ -16,6 +16,7 @@ import Divider from '@mui/material/Divider';
 import { CardActions, CardContent, CardHeader, CardMedia, IconButton } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SendIcon from '@mui/icons-material/Send';
+import CancelIcon from '@mui/icons-material/Cancel';
 import Autocomplete from '@mui/material/Autocomplete';
 import top100Films from '../post/Test';
 
@@ -24,11 +25,10 @@ const cardStyle = {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    width: 400,
     transform: 'translate(-50%, -50%)',
     boxShadow: 24,
-    mx: 'auto',
 };
+
 //dndのスタイル
 const style: React.CSSProperties = {
     flex: 1,
@@ -45,9 +45,8 @@ const style: React.CSSProperties = {
     outline: 'none',
     transition: 'border .24s ease-in-out',
     position: 'relative',
-    width: 400,
+    width: 600,
     height: 300,
-    objectFit: 'cover'
 }
 const focusedStyle = {
     borderColor: '#2196f3'
@@ -151,13 +150,17 @@ export default function NewPost() {
                     />
                     <div {...getRootProps()} style={dropzoneStyle}>
                         {file ? (
-                            <Image
-                                src={file.preview}
-                                alt='preview'
-                                fill={true}
-                                onLoad={() => URL.revokeObjectURL(file.preview)}
-                                onClick={() => setFile(null)}
-                            />
+                            <>
+                                <Image
+                                    src={file.preview}
+                                    alt='preview'
+                                    layout='fill'
+                                    objectFit='contain'
+                                    // style={{ width: '100%', height: '100%' }}
+                                    onLoad={() => URL.revokeObjectURL(file.preview)}
+                                    onClick={() => setFile(null)}
+                                />
+                            </>
                         ) : (
                             <div>
                                 <input {...getInputProps()} />

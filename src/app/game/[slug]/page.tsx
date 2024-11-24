@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
-import Linkbar from "@/components/appbar/LinkBar";
 import Axios from "axios";
 import Image from "next/image";
 
@@ -9,6 +8,7 @@ interface Game {
     id: string;
     name: string;
     cover: {
+        image_id: string;
         url: string;
     };
     game_localizations: {
@@ -27,11 +27,10 @@ export default function game() {
 
     const fetchData = useCallback(() => {
 
-        let requestBody = `fields name,cover.url,game_localizations.name,game_localizations.region; where id = ${params.slug};`
+        let requestBody = `fields name,cover.url,cover.image_id,game_localizations.name,game_localizations.region; where id = ${params.slug};`
         console.log(requestBody);
         Axios.post('/api/igdb', { body: requestBody })
             .then((res) => {
-                console.log(res.data);
                 setGameInfo(res.data)
             })
     }, [])
@@ -45,16 +44,19 @@ export default function game() {
             }
         }
         startFetch();
+
         return () => { ignore = true; }
     }, [])
 
+    console.log(gameInfo);
+    "//images.igdb.com/igdb/image/upload/t_thumb/co4xgh.jpg"
     return (
         <div>
             <h1>info.tsxだよー</h1>
             {gameInfo.map((Game) =>
                 <div key={Game.id}>
                     <Image
-                        src={"https:" + Game.cover.url}
+                        src={"https://images.igdb.com/igdb/image/upload/t_1080p/" + Game.cover.image_id + ".jpg"}
                         alt={"sample"}
                         sizes='100vw'
                         style={{

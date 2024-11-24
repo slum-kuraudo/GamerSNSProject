@@ -19,7 +19,6 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import VideogameAssetRoundedIcon from '@mui/icons-material/VideogameAssetRounded';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
-
 import NewPost from './NewPost';
 import { SignedIn, UserButton } from '@clerk/nextjs';
 import { Divider, Drawer, IconButton, MenuItem } from '@mui/material';
@@ -57,8 +56,8 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    height: 400,
-    width: 700,
+    height: '40%',
+    width: '70%',
     bgcolor: 'background.paper',
     borderRadius: 5,
     boxShadow: 24,
@@ -83,9 +82,6 @@ export default function Header() {
         setDrawerOpen(newOpen);
     }
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    }
 
 
     async function upProfile(e: React.FormEvent<HTMLFormElement>) {
@@ -226,25 +222,29 @@ export default function Header() {
                             プロフィール編集
                         </Typography>
                         <input
+                            required
                             autoFocus
                             type="text"
-                            placeholder='ハンドルネーム'
+                            placeholder={firstName}
                             value={firstName}
+                            maxLength={20}
                             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                             onChange={(e) => setFirstName(e.target.value)}
                         />
                         <input
                             type="text"
-                            placeholder='ここは空欄でも構いません'
+                            placeholder='現在封鎖しています'
                             value={lastName}
+                            disabled={true}
                             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                            onChange={(e) => setLastName(e.target.value)}
+                            onChange={(e) => setLastName("")}
                         />
                         <br />
                         <input
                             placeholder='自己紹介'
                             type="text"
                             value={bio}
+                            maxLength={160}
                             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                             onChange={(e) => setBio(e.target.value)}
                         />
@@ -254,9 +254,6 @@ export default function Header() {
                         >
                             Update
                         </button>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            プロフィール画像やパスワードの変更はこちら
-                        </Typography>
                     </Box>
                 </form>
             </Modal>
