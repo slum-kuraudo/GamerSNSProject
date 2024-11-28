@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Image from 'next/image';
+import { Axios } from 'axios';
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -21,11 +22,18 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
+interface Tasks {
+    id: number;
+    imageUrl: string;
+    name: string;
+    user_id: string;
+}
+
 export default function Home() {
-    const [tasks, setTasks] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [name, setName] = useState('')
     const [file, setFile] = useState<File | null>(null)
+    const [tasks, setTasks] = useState<Tasks[]>([])
     const [isFileTypeError, setIsFileTypeError] = useState<boolean>(false)
     const [previewUrl, setPreviewUrl] = useState<string>("")
     const [imageUrl, setImageUrl] = useState<string>("")
@@ -73,6 +81,17 @@ export default function Home() {
             setLoading(true)
             const { data, error } = await client.from('tasks').select()
             if (!error) setTasks(data)
+            if (data) {
+                const userIds = data.map((task: Tasks) => task.user_id);
+                const uniqueUserIds = [...new Set(userIds)];
+
+                const userFetchPromises = uniqueUserIds.map((userId) =>
+                    fetch(`/api/user/${userId}`).then((response) => response.json())
+                );
+
+                const users = await Promise.all(userFetchPromises);
+                console.log(users);
+            }
             setLoading(false)
         }
 
@@ -124,6 +143,7 @@ export default function Home() {
         window.location.reload()
     }
 
+
     // Delete a task from the database
     async function deleteTask(taskId: number) {
         await client.from('tasks').delete().eq('id', taskId)
@@ -151,6 +171,7 @@ export default function Home() {
         setFile(file);
         setPreviewUrl(URL.createObjectURL(file));
     }
+
     return (
         <div>
             <h1>Tasks</h1>

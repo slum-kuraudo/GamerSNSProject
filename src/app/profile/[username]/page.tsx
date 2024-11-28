@@ -2,17 +2,16 @@
 import React from 'react'
 import { useParams } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
-
+import UserProfile from '@/components/Profile/UserProfile';
 export default function UserPage() {
 
     const params = useParams()
     const user = useUser()
-    console.log(params)
-    console.log(user)
 
     return (
         <>
-            <h1>{params.username}</h1>
+            <UserProfile username={Array.isArray(params?.username) ? params.username[0] : params?.username || ''}
+                firstname='' />
         </>
     )
 }

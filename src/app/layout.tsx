@@ -26,11 +26,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
 
-  if (typeof window === 'undefined') {
-    console.log('server')
-  } else {
-    console.log('client')
-  }
+
   return (
     // <ClerkProvider>
     <ClerkProvider localization={jaJP}>

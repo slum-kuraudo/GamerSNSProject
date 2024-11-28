@@ -22,6 +22,7 @@ import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
 import NewPost from './NewPost';
 import { SignedIn, UserButton } from '@clerk/nextjs';
 import { Divider, Drawer, IconButton, MenuItem } from '@mui/material';
+import ColorModeIconDropdown from './ColorModeIconDropdown';
 
 //https://mui.com/material-ui/react-bottom-navigation/
 //スマホ版のボタンUI↑

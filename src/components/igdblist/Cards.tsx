@@ -9,7 +9,7 @@ export default function GameCard() {
     <>
       <Container maxWidth="xl" sx={{ mt: 15 }}>
         <TagSearch />
-        <Grid2 container spacing={1}>
+        <Grid2 container spacing={1} >
 
           <IGDBGameCard />
         </Grid2>

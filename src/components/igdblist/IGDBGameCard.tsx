@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -37,6 +38,7 @@ export default function IGDBGameCard() {
         let requestBody = "fields name,cover.url,cover.image_id,slug,game_localizations.name,game_localizations.region; where rating > 90; limit 20;"
         await Axios.post('/api/igdb', { body: requestBody })
             .then((res) => {
+                console.log(res.data);
                 setGames(res.data);
                 setIsLoading(true);
             })

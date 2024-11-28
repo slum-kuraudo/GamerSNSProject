@@ -28,7 +28,6 @@ export default function game() {
     const fetchData = useCallback(() => {
 
         let requestBody = `fields name,cover.url,cover.image_id,game_localizations.name,game_localizations.region; where id = ${params.slug};`
-        console.log(requestBody);
         Axios.post('/api/igdb', { body: requestBody })
             .then((res) => {
                 setGameInfo(res.data)
@@ -48,7 +47,6 @@ export default function game() {
         return () => { ignore = true; }
     }, [])
 
-    console.log(gameInfo);
     "//images.igdb.com/igdb/image/upload/t_thumb/co4xgh.jpg"
     return (
         <div>
