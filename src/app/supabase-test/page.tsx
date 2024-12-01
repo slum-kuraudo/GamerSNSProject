@@ -81,17 +81,6 @@ export default function Home() {
             setLoading(true)
             const { data, error } = await client.from('tasks').select()
             if (!error) setTasks(data)
-            if (data) {
-                const userIds = data.map((task: Tasks) => task.user_id);
-                const uniqueUserIds = [...new Set(userIds)];
-
-                const userFetchPromises = uniqueUserIds.map((userId) =>
-                    fetch(`/api/user/${userId}`).then((response) => response.json())
-                );
-
-                const users = await Promise.all(userFetchPromises);
-                console.log(users);
-            }
             setLoading(false)
         }
 

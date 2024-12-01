@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { jaJP } from '@clerk/localizations'
+import ToastProvider from '@/components/ToastProvider';
 
 import {
   ClerkProvider,
@@ -36,7 +37,9 @@ export default function RootLayout({
             <AppRouterCacheProvider>
               <Header />
               <NewPost />
-              {children}
+              <ToastProvider>
+                {children}
+              </ToastProvider>
             </AppRouterCacheProvider>
           </main>
         </body>

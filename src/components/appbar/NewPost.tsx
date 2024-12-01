@@ -1,5 +1,5 @@
 "use client"
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, use } from 'react';
 import Fab from '@mui/material/Fab';
 import CreateIcon from '@mui/icons-material/Create';
 import Modal from '@mui/material/Modal';
@@ -10,7 +10,6 @@ import SendButton from '../post/SendButton';
 import Card from '@mui/material/Card';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDropzone } from 'react-dropzone';
-import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import Divider from '@mui/material/Divider';
 import { CardActions, CardContent, CardHeader, CardMedia, IconButton } from '@mui/material';
@@ -19,6 +18,10 @@ import SendIcon from '@mui/icons-material/Send';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Autocomplete from '@mui/material/Autocomplete';
 import top100Films from '../post/Test';
+import { useSession, useUser } from '@clerk/nextjs'
+import { createClient } from '@supabase/supabase-js'
+import { toast } from 'react-toastify';
+
 
 //cardモーダルのスタイル
 const cardStyle = {
@@ -60,13 +63,16 @@ const rejectStyle = {
     borderColor: '#ff1744'
 };
 
+
 export default function NewPost() {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [postText, setPostText] = useState<string>("");
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const { isLoaded, isSignedIn, user } = useUser();
     const [file, setFile] = useState<File & { preview: string } | null>(null);
+    const { session } = useSession();
 
     const {
         getRootProps,
@@ -75,7 +81,7 @@ export default function NewPost() {
         isDragAccept,
         isDragReject
     } = useDropzone({
-        accept: { 'image/*': [] },
+        accept: { 'image/*': ['.jpg', '.jpeg', '.png', '.gif'] },
         onDrop: acceptedFiles => {
             if (acceptedFiles.length > 0) {
                 const selectedFile = acceptedFiles[0];
@@ -88,6 +94,77 @@ export default function NewPost() {
         }
     });
 
+    const client = createClerkSupabaseClient()
+
+    function createClerkSupabaseClient() {
+        return createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_KEY!,
+            {
+                global: {
+                    // Get the custom Supabase token from Clerk
+                    fetch: async (url, options = {}) => {
+                        const clerkToken = await session?.getToken({
+                            template: 'supabase',
+                        })
+
+                        // Insert the Clerk Supabase token into the headers
+                        const headers = new Headers(options?.headers)
+                        headers.set('Authorization', `Bearer ${clerkToken}`)
+
+                        // Now call the default fetch
+                        return fetch(url, {
+                            ...options,
+                            headers,
+                        })
+                    },
+                },
+            },
+        )
+    }
+
+
+
+
+    async function createPost(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+        setLoading(true)
+        if (!postText) {
+            toast.error('何か入力してください')
+            setLoading(false)
+            return
+        }
+
+
+        const imageFile = file;
+        const fileName = `${crypto.randomUUID()}`;
+        let imageUrl = null;
+
+        if (imageFile) {
+            const { error: upError } = await client.storage
+                .from('post_image')
+                .upload(fileName, imageFile);
+
+            if (upError) {
+                console.error('Error uploading file: ', upError.message);
+            } else {
+                const { data: urlData } = await client.storage
+                    .from('post_image')
+                    .getPublicUrl(fileName);
+                imageUrl = urlData?.publicUrl;
+            }
+        }
+
+        await client.from('post').insert({
+            postText,
+            imageUrl,
+        });
+
+        setLoading(false)
+        toast.success('sayしました！')
+        handleClose()
+    }
+
     useEffect(() => {
         return () => {
             if (file) URL.revokeObjectURL(file.preview);
@@ -97,6 +174,10 @@ export default function NewPost() {
     useEffect(() => {
         if (!open) setFile(null);
     }, [open]);
+
+    useEffect(() => {
+        if (!user) return;
+    }, [user])
 
     const dropzoneStyle = useMemo(() => ({
         ...style,
@@ -108,6 +189,7 @@ export default function NewPost() {
         isDragAccept,
         isDragReject
     ]);
+
 
 
 
@@ -137,62 +219,68 @@ export default function NewPost() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Card sx={cardStyle}>
-                    <CardHeader
-                        avatar={
-                            <Avatar src={imageSrc} sx={{ maxWidth: 56, maxHeight: 56 }} />
-                        }
-                        action={
-                            <IconButton aria-label="close" onClick={handleClose} sx={{ maxWidth: 56, maxHeight: 56 }}>
-                                <CloseIcon />
-                            </IconButton>
-                        }
-                    />
-                    <div {...getRootProps()} style={dropzoneStyle}>
-                        {file ? (
-                            <>
-                                <Image
-                                    src={file.preview}
-                                    alt='preview'
-                                    layout='fill'
-                                    objectFit='contain'
-                                    // style={{ width: '100%', height: '100%' }}
-                                    onLoad={() => URL.revokeObjectURL(file.preview)}
-                                    onClick={() => setFile(null)}
-                                />
-                            </>
-                        ) : (
-                            <div>
-                                <input {...getInputProps()} />
-                                <p>画像をドラッグ&ドロップするか、</p>
-                                <p>タップorクリックしてください。</p>
-                            </div>
-                        )}
-                    </div>
-
-                    <textarea className="w-full p-2 bg-transparent outline-none placeholder-gray-400 text-black resize-none" rows={4} placeholder="何してたん？" />
-
-                    <Divider />
-                    <CardActions>
-                        <Autocomplete
-                            disablePortal
-                            size='small'
-                            sx={{ width: 250, height: 50 }}
-                            options={top100Films}
-                            limitTags={1}
-                            renderInput={(params) => <TextField {...params} label="タグ" />}
+                <form onSubmit={createPost}>
+                    <Card sx={cardStyle}>
+                        <CardHeader
+                            avatar={
+                                <Avatar src={imageSrc} sx={{ maxWidth: 56, maxHeight: 56 }} />
+                            }
+                            action={
+                                <IconButton aria-label="close" onClick={handleClose} sx={{ maxWidth: 56, maxHeight: 56 }}>
+                                    <CloseIcon />
+                                </IconButton>
+                            }
                         />
-                        <LoadingButton
-                            endIcon={<SendIcon />}
-                            loading={loading}
-                            loadingPosition="end"
-                            variant="contained"
-                            type='submit'
-                        >
-                            say
-                        </LoadingButton>
-                    </CardActions>
-                </Card>
+                        <div {...getRootProps()} style={dropzoneStyle}>
+                            {file ? (
+                                <>
+                                    <Image
+                                        src={file.preview}
+                                        alt='preview'
+                                        layout='fill'
+                                        objectFit='contain'
+                                        // style={{ width: '100%', height: '100%' }}
+                                        onLoad={() => URL.revokeObjectURL(file.preview)}
+                                        onClick={() => setFile(null)}
+                                    />
+                                </>
+                            ) : (
+                                <div>
+                                    <input {...getInputProps()} />
+                                    <p>画像をドラッグ&ドロップするか、</p>
+                                    <p>タップorクリックしてください。</p>
+                                </div>
+                            )}
+                        </div>
+
+                        <textarea className="w-full p-2 bg-transparent outline-none placeholder-gray-400 text-black resize-none"
+                            rows={4}
+                            placeholder="何してたん？"
+                            onChange={(e) => setPostText(e.target.value)}
+                        />
+
+                        <Divider />
+                        <CardActions>
+                            <Autocomplete
+                                disablePortal
+                                size='small'
+                                sx={{ width: 250, height: 50 }}
+                                options={top100Films}
+                                limitTags={1}
+                                renderInput={(params) => <TextField {...params} label="タグ" />}
+                            />
+                            <LoadingButton
+                                endIcon={<SendIcon />}
+                                loading={loading}
+                                loadingPosition="end"
+                                variant="contained"
+                                type='submit'
+                            >
+                                say
+                            </LoadingButton>
+                        </CardActions>
+                    </Card>
+                </form>
 
             </Modal>
         </div>

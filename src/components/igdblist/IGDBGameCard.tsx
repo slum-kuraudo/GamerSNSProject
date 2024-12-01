@@ -4,12 +4,14 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import CardActionArea from '@mui/material/CardActionArea';
+
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
 import CircularProgress from '@mui/joy/CircularProgress';
 import { launchTwitch } from "./launchTwitch";
-import { Skeleton } from "@mui/material";
+import { Grid2, Skeleton } from "@mui/material";
 import Axios from "axios";
 import { useRouter } from "next/navigation";
 
@@ -27,6 +29,8 @@ interface Game {
     }
 }
 
+
+
 export default function IGDBGameCard() {
 
     const router = useRouter();
@@ -35,7 +39,7 @@ export default function IGDBGameCard() {
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchData = async () => {
-        let requestBody = "fields name,cover.url,cover.image_id,slug,game_localizations.name,game_localizations.region; where rating > 90; limit 20;"
+        let requestBody = "fields name,cover.url,cover.image_id,slug,game_localizations.name,game_localizations.region; where rating > 90; limit 50;"
         await Axios.post('/api/igdb', { body: requestBody })
             .then((res) => {
                 console.log(res.data);
@@ -63,8 +67,9 @@ export default function IGDBGameCard() {
     return (
         <>
             {games.map((Game) =>
-                <div key={Game.id}>
-                    <Card sx={{ maxWidth: 235, mt: 3 }}>
+
+                <Grid2 key={Game.id} >
+                    <Card sx={{ maxWidth: 235 }}>
                         {isLoading ? (
                             <CardMedia
                                 sx={{ height: 330, width: 235 }}
@@ -92,8 +97,10 @@ export default function IGDBGameCard() {
                             >twitch</Button>
                         </CardActions>
                     </Card>
-                </div>
-            )}
+                </Grid2>
+
+            )
+            }
         </>
     )
 }
