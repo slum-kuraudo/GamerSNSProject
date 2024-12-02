@@ -1,28 +1,24 @@
 'use client';
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { alpha, styled } from '@mui/material/styles';
-import { useUser } from '@clerk/nextjs'
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Sitemark from './SitemarkIcon';
-import MenuIcon from '@mui/icons-material/Menu';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { SignedIn, UserButton, useUser } from '@clerk/nextjs';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import VideogameAssetRoundedIcon from '@mui/icons-material/VideogameAssetRounded';
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+import MenuIcon from '@mui/icons-material/Menu';
 import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
-import NewPost from './NewPost';
-import { SignedIn, UserButton } from '@clerk/nextjs';
+import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+import VideogameAssetRoundedIcon from '@mui/icons-material/VideogameAssetRounded';
 import { Divider, Drawer, IconButton, MenuItem } from '@mui/material';
-import ColorModeIconDropdown from './ColorModeIconDropdown';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Modal from '@mui/material/Modal';
+import { alpha, styled } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/navigation';
+import * as React from 'react';
+import { useState } from 'react';
+import Sitemark from './SitemarkIcon';
 
 //https://mui.com/material-ui/react-bottom-navigation/
 //スマホ版のボタンUI↑

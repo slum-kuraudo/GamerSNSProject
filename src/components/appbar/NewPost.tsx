@@ -1,26 +1,23 @@
 "use client"
-import { useState, useMemo, useEffect, use } from 'react';
-import Fab from '@mui/material/Fab';
-import CreateIcon from '@mui/icons-material/Create';
-import Modal from '@mui/material/Modal';
-import Avatar from '@mui/material/Avatar';
-import TextField from '@mui/material/TextField';
-import TagComplete from '../post/TagComplete';
-import SendButton from '../post/SendButton';
-import Card from '@mui/material/Card';
+import { useSession, useUser } from '@clerk/nextjs';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDropzone } from 'react-dropzone';
-import Image from 'next/image';
-import Divider from '@mui/material/Divider';
-import { CardActions, CardContent, CardHeader, CardMedia, IconButton } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
+import CreateIcon from '@mui/icons-material/Create';
 import SendIcon from '@mui/icons-material/Send';
-import CancelIcon from '@mui/icons-material/Cancel';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { CardActions, CardHeader, IconButton } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import top100Films from '../post/Test';
-import { useSession, useUser } from '@clerk/nextjs'
-import { createClient } from '@supabase/supabase-js'
+import Avatar from '@mui/material/Avatar';
+import Card from '@mui/material/Card';
+import Divider from '@mui/material/Divider';
+import Fab from '@mui/material/Fab';
+import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
+import { createClient } from '@supabase/supabase-js';
+import Image from 'next/image';
+import { useEffect, useMemo, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
+import top100Films from '../post/Test';
 
 
 //cardモーダルのスタイル

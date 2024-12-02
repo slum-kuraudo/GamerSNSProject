@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
-import { useParams } from "next/navigation";
 import Axios from "axios";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 interface Game {
     id: string;

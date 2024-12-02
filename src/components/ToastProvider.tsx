@@ -1,7 +1,7 @@
 "use client";
 
+import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Flip, Slide, ToastContainer } from "react-toastify";
 
 export default function ToastProvider(
     { children }: { children: React.ReactNode; }) {

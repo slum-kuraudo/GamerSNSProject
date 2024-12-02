@@ -1,13 +1,12 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { useSession, useUser } from '@clerk/nextjs'
-import { createClient } from '@supabase/supabase-js'
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
+import { useSession, useUser } from '@clerk/nextjs';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import { createClient } from '@supabase/supabase-js';
 import Image from 'next/image';
-import { Axios } from 'axios';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 
 const VisuallyHiddenInput = styled('input')({

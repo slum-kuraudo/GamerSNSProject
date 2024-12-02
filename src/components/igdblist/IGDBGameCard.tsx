@@ -1,19 +1,16 @@
 
-import { useEffect, useState } from "react";
+import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
+import { Grid2, Skeleton } from "@mui/material";
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import CardActionArea from '@mui/material/CardActionArea';
-
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
-import CircularProgress from '@mui/joy/CircularProgress';
-import { launchTwitch } from "./launchTwitch";
-import { Grid2, Skeleton } from "@mui/material";
 import Axios from "axios";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { launchTwitch } from "./launchTwitch";
 
 interface Game {
     id: string;

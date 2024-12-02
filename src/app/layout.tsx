@@ -1,19 +1,13 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { jaJP } from '@clerk/localizations'
 import ToastProvider from '@/components/ToastProvider';
+import { jaJP } from '@clerk/localizations';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
-} from '@clerk/nextjs'
-import './globals.css'
 import Header from '@/components/appbar/Header';
 import NewPost from '@/components/appbar/NewPost';
+import { ClerkProvider } from '@clerk/nextjs';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] })
 

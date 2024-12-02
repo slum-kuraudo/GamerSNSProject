@@ -1,7 +1,5 @@
-import Container from '@mui/material/Container';
 import Grid2 from '@mui/material/Grid2';
 import IGDBGameCard from './IGDBGameCard';
-import TagSearch from './TagSearch';
 export default function GameCard() {
 
 
