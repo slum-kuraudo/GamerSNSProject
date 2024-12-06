@@ -17,7 +17,7 @@ import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
-import top100Films from '../post/Test';
+import top100Films from '../old_post/Test';
 
 
 //cardモーダルのスタイル
@@ -65,6 +65,7 @@ export default function NewPost() {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [postText, setPostText] = useState<string>("");
+    const [postTag, setPostTag] = useState<string>("");
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const { isLoaded, isSignedIn, user } = useUser();
