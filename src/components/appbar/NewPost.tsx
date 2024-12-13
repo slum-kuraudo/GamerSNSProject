@@ -1,10 +1,11 @@
 "use client"
+import useDebounce from '@/app/api/hooks/useDebounce';
 import { useSession, useUser } from '@clerk/nextjs';
 import CloseIcon from '@mui/icons-material/Close';
 import CreateIcon from '@mui/icons-material/Create';
 import SendIcon from '@mui/icons-material/Send';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { CardActions, CardHeader, IconButton } from '@mui/material';
+import { Box, CardActions, CardHeader, CircularProgress, IconButton } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
@@ -13,12 +14,11 @@ import Fab from '@mui/material/Fab';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import { createClient } from '@supabase/supabase-js';
+import Axios from 'axios';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
-import top100Films from '../old_post/Test';
-
 
 //cardモーダルのスタイル
 const cardStyle = {
@@ -60,14 +60,30 @@ const rejectStyle = {
     borderColor: '#ff1744'
 };
 
+interface Game {
+    id: string;
+    name: string;
+    cover: {
+        image_id: string;
+        url: string;
+    };
+    game_localizations: {
+        name: string;
+        region: number;
+    }
+}
+
 
 export default function NewPost() {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [postText, setPostText] = useState<string>("");
-    const [postTag, setPostTag] = useState<string>("");
+    const [postText, setPostText] = useState("");
+    const [inputValue, setInputValue] = useState("");
+    const [isDisabled, setIsDisabled] = useState(false);
+    const [games, setGames] = useState<Game[]>([]);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const debouncedInputValue = useDebounce(inputValue, 500);
     const { isLoaded, isSignedIn, user } = useUser();
     const [file, setFile] = useState<File & { preview: string } | null>(null);
     const { session } = useSession();
@@ -120,6 +136,28 @@ export default function NewPost() {
             },
         )
     }
+
+    const fetchData = async (query: string) => {
+        setLoading(true)
+        let requestBody = `fields id,name,cover.image_id,game_localizations.name,game_localizations.region,category; search "${query}"; where category = (0,8,9); limit 10;`
+        try {
+            const res = await Axios.post('/api/igdb', { body: requestBody })
+            setGames(res.data);
+            console.log(res.data);
+        } catch (error) {
+            console.error('エラー', error)
+            toast.error('リクエストが多すぎます！暫く時間を置いて試してください')
+        } finally {
+            setLoading(false)
+        }
+    }
+
+
+    useEffect(() => {
+        if (debouncedInputValue) {
+            fetchData(debouncedInputValue)
+        }
+    }, [debouncedInputValue])
 
 
 
@@ -260,12 +298,67 @@ export default function NewPost() {
                         <Divider />
                         <CardActions>
                             <Autocomplete
-                                disablePortal
-                                size='small'
-                                sx={{ width: 250, height: 50 }}
-                                options={top100Films}
                                 limitTags={1}
-                                renderInput={(params) => <TextField {...params} label="タグ" />}
+                                size='small'
+                                sx={{ width: 450, height: 40 }}
+                                options={games}
+                                getOptionLabel={(option) => typeof option === 'string' ? option : option.name}
+                                inputValue={inputValue}
+                                includeInputInList
+                                onInputChange={(event, newInputValue) => {
+                                    if (!isDisabled) {
+                                        setInputValue(newInputValue);
+                                    }
+
+                                }}
+                                onChange={(event, newValue) => {
+                                    setInputValue(typeof newValue === "string" ? newValue : newValue?.name || "");
+                                    if (newValue) {
+                                        setIsDisabled(true);
+                                    } else {
+                                        setIsDisabled(false);
+                                    }
+                                }}
+                                renderOption={(props, option) => (
+                                    <Box
+                                        component="li"
+                                        {...props}
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 1,
+                                            padding: "8px",
+                                        }}>
+                                        <img
+                                            width={40}
+                                            height={40}
+                                            alt=''
+                                            src={
+                                                option.cover?.image_id ?
+                                                    "https://images.igdb.com/igdb/image/upload/t_1080p/" + option.cover.image_id + ".jpg"
+                                                    : 'https://www.shoshinsha-design.com/wp-content/uploads/2020/05/noimage_%E3%83%92%E3%82%9A%E3%82%AF%E3%83%88-760x460.png'}
+                                        />
+                                        {option.name}
+
+                                    </Box>
+                                )}
+                                renderInput={(params) => <TextField
+                                    {...params}
+                                    label="ゲームタイトル検索"
+                                    variant='outlined'
+                                    disabled={isDisabled}
+                                    InputProps={{
+                                        ...params.InputProps,
+                                        endAdornment: (
+                                            <>
+                                                {loading ? <CircularProgress color='inherit' size={20} /> : null}
+                                                {params.InputProps.endAdornment}
+                                            </>
+                                        ),
+                                    }}
+                                />
+                                }
+
                             />
                             <LoadingButton
                                 endIcon={<SendIcon />}
