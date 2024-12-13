@@ -78,6 +78,7 @@ export default function NewPost() {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [postText, setPostText] = useState("");
+    const [gameId, setGameId] = useState(0);
     const [inputValue, setInputValue] = useState("");
     const [isDisabled, setIsDisabled] = useState(false);
     const [games, setGames] = useState<Game[]>([]);
@@ -170,6 +171,11 @@ export default function NewPost() {
             setLoading(false)
             return
         }
+        if (!isDisabled) {
+            toast.error('ゲームを選択してください')
+            setLoading(false)
+            return
+        }
 
 
         const imageFile = file;
@@ -194,9 +200,12 @@ export default function NewPost() {
         await client.from('post').insert({
             postText,
             imageUrl,
+            game_id: gameId,
+            game_title: inputValue,
         });
 
         setLoading(false)
+        setInputValue("")
         toast.success('sayしました！')
         handleClose()
     }
@@ -261,6 +270,8 @@ export default function NewPost() {
                             avatar={
                                 <Avatar src={imageSrc} sx={{ maxWidth: 56, maxHeight: 56 }} />
                             }
+                            title={user?.fullName}
+                            subheader={inputValue}
                             action={
                                 <IconButton aria-label="close" onClick={handleClose} sx={{ maxWidth: 56, maxHeight: 56 }}>
                                     <CloseIcon />
@@ -299,6 +310,7 @@ export default function NewPost() {
                         <CardActions>
                             <Autocomplete
                                 limitTags={1}
+                                loadingText='検索中'
                                 size='small'
                                 sx={{ width: 450, height: 40 }}
                                 options={games}
@@ -314,6 +326,7 @@ export default function NewPost() {
                                 onChange={(event, newValue) => {
                                     setInputValue(typeof newValue === "string" ? newValue : newValue?.name || "");
                                     if (newValue) {
+                                        setGameId(Number(newValue.id));
                                         setIsDisabled(true);
                                     } else {
                                         setIsDisabled(false);
