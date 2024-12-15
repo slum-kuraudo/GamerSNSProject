@@ -1,6 +1,6 @@
 "use client";
 
-import { Slide, ToastContainer } from "react-toastify";
+import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function ToastProvider(
@@ -16,10 +16,10 @@ export default function ToastProvider(
                 newestOnTop={false}
                 closeOnClick
                 rtl={false}
-                pauseOnFocusLoss
+                pauseOnHover={false}
                 draggable
-                theme="light"
-                transition={Slide}
+                theme="colored"
+                transition={Bounce}
             />
         </>
     );

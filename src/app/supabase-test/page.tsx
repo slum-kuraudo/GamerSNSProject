@@ -80,6 +80,7 @@ export default function Home() {
             setLoading(true)
             const { data, error } = await client.from('tasks').select()
             if (!error) setTasks(data)
+            console.log(tasks)
             setLoading(false)
         }
 
