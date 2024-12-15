@@ -189,17 +189,12 @@ export default function NewPost() {
 
             if (upError) {
                 console.error('Error uploading file: ', upError.message);
-            } else {
-                const { data: urlData } = await client.storage
-                    .from('post_image')
-                    .getPublicUrl(fileName);
-                imageUrl = urlData?.publicUrl;
             }
         }
 
         await client.from('post').insert({
             postText,
-            imageUrl,
+            image_id: fileName,
             game_id: gameId,
             game_title: inputValue,
         });

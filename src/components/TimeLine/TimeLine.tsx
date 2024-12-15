@@ -19,7 +19,7 @@ interface Posts {
     user_id: string;
     post_type: string;
     postText: string;
-    imageUrl: string;
+    image_id: string;
     reply_to: number;
     favorite: number;
     game_id: number;
@@ -121,10 +121,10 @@ export default function TimeLine() {
         setIsModalOpen(false);
         setSelectedImage("");
     }
-    const handleDelete = async (id: number, imageUrl: string) => {
+    const handleDelete = async (id: number, image_id: string) => {
         const { error } = await client.from('post').delete().eq('id', id)
             &&
-            await client.storage.from('post_image').remove([imageUrl])
+            await client.storage.from('post_image').remove([image_id])
 
         if (error) {
             toast.error('Error deleting task')
@@ -150,18 +150,18 @@ export default function TimeLine() {
                                 action={
                                     <IconButton >
                                         {user?.id === post.user_id && (
-                                            <DeleteOutlineIcon onClick={() => handleDelete(post.id, post.imageUrl)} />
+                                            <DeleteOutlineIcon onClick={() => handleDelete(post.id, post.image_id)} />
                                         )}
 
                                     </IconButton>
                                 }
                             />
-                            {post.imageUrl && (
+                            {post.image_id && (
                                 <CardMedia
                                     component="img"
-                                    image={post.imageUrl}
+                                    image={'https://uyehbdnaojwdxrrzdwat.supabase.co/storage/v1/object/public/post_image/' + post.image_id}
                                     sx={{ height: 300, cursor: 'pointer' }}
-                                    onClick={() => handleImageClick(post.imageUrl)}
+                                    onClick={() => handleImageClick(post.image_id)}
                                 />
                             )
                             }
@@ -183,7 +183,7 @@ export default function TimeLine() {
                                 }}
                             >
                                 <img
-                                    src={selectedImage}
+                                    src={'https://uyehbdnaojwdxrrzdwat.supabase.co/storage/v1/object/public/post_image/' + selectedImage}
                                     style={{ maxWidth: '100%', maxHeight: '100%' }} />
                             </Modal>
 
